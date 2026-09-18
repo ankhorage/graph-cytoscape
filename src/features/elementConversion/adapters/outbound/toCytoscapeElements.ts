@@ -26,10 +26,7 @@ export function toCytoscapeElements<
 }
 
 /*** Convert one graph node while preserving domain metadata and compound-parent data. */
-function toNodeDefinition<
-  NodeData extends CytoscapeElementData,
-  EdgeData extends CytoscapeElementData,
->(
+function toNodeDefinition<NodeData extends CytoscapeElementData, EdgeData extends CytoscapeElementData>(
   node: GraphNode<NodeData>,
   options: CytoscapeAdapterOptions<NodeData, EdgeData>,
 ): NodeDefinition {
@@ -46,10 +43,7 @@ function toNodeDefinition<
 }
 
 /*** Convert one graph edge while enforcing canonical identity and endpoints. */
-function toEdgeDefinition<
-  NodeData extends CytoscapeElementData,
-  EdgeData extends CytoscapeElementData,
->(
+function toEdgeDefinition<NodeData extends CytoscapeElementData, EdgeData extends CytoscapeElementData>(
   edge: GraphEdge<EdgeData>,
   options: CytoscapeAdapterOptions<NodeData, EdgeData>,
 ): EdgeDefinition {
