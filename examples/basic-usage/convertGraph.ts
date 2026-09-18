@@ -1,6 +1,12 @@
 import { createGraph } from '@ankhorage/graph';
 import { toCytoscapeElements } from '@ankhorage/graph-cytoscape';
 
+/***
+ * Convert a canonical Ankhorage graph into Cytoscape element definitions.
+ *
+ * @usage
+ * @readme
+ */
 const graph = createGraph({
   nodes: [
     { id: 'studio', data: { label: 'Studio' } },
