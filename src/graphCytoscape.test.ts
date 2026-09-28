@@ -132,3 +132,47 @@ test('orders node and edge definitions deterministically', () => {
   expect(elements.nodes.map(({ data }) => data.id)).toEqual(['a', 'z']);
   expect(elements.edges.map(({ data }) => data.id)).toEqual(['a-z', 'z-a']);
 });
+
+test('converts numeric identities and compound parents at the Cytoscape boundary', () => {
+  const graph: Graph<
+    Readonly<{ parent?: number; label: string }>,
+    Readonly<{ weight: number }>,
+    number
+  > = {
+    nodes: [
+      { id: 2, data: { parent: 1, label: 'Child' } },
+      { id: 1, data: { label: 'Parent' } },
+    ],
+    edges: [{ id: 3, source: 2, target: 1, data: { weight: 4 } }],
+  };
+  const observedNodeIds: number[] = [];
+  const elements = toCytoscapeElements(graph, {
+    nodeClasses: (node) => {
+      observedNodeIds.push(node.id);
+      return undefined;
+    },
+  });
+
+  expect(observedNodeIds).toEqual([1, 2]);
+  expect(elements.nodes.map(({ data }) => data)).toEqual([
+    { id: '1', label: 'Parent' },
+    { id: '2', parent: '1', label: 'Child' },
+  ]);
+  expect(elements.edges[0]?.data).toEqual({ id: '3', source: '2', target: '1', weight: 4 });
+});
+
+test('rejects numeric and string identities that collapse to one Cytoscape ID', () => {
+  const graph: Graph<
+    Readonly<Record<string, never>>,
+    Readonly<Record<string, never>>,
+    number | string
+  > = {
+    nodes: [
+      { id: 1, data: {} },
+      { id: '1', data: {} },
+    ],
+    edges: [],
+  };
+
+  expect(() => toCytoscapeElements(graph)).toThrow('collide after Cytoscape string conversion');
+});
