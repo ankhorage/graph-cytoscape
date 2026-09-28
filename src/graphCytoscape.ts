@@ -1,4 +1,4 @@
-export { toCytoscapeElements } from './features/elementConversion/adapters/outbound/toCytoscapeElements.js';
+export { toCytoscapeElements } from './features/elementConversion/toCytoscapeElements.js';
 export type {
   CytoscapeAdapterOptions,
   CytoscapeClasses,
