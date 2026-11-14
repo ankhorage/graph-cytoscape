@@ -1,5 +1,11 @@
 # @ankhorage/graph-cytoscape
 
+## 0.2.1
+
+### Patch Changes
+
+- b23b50b: Add canonical repository metadata for package discovery and documentation.
+
 ## 0.2.0
 
 ### Minor Changes
