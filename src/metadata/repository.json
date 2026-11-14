@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "adapter",
+  "title": "Ankhorage Graph Cytoscape",
+  "summary": "Converts canonical Ankhorage graph data into Cytoscape element definitions.",
+  "purpose": "Provide a narrow Cytoscape adapter so graph consumers can render canonical graph models without making the core graph package depend on Cytoscape.",
+  "domain": "graph visualization adapter",
+  "responsibilities": [
+    "Translate canonical graph data into Cytoscape element definitions.",
+    "Expose the Cytoscape adapter through the published package boundary."
+  ],
+  "boundaries": [
+    "Does not own graph algorithms or dependency semantics.",
+    "Does not own Cytoscape lifecycle, layouts, styling, or UI behavior."
+  ],
+  "audience": ["Applications that render @ankhorage/graph models with Cytoscape."],
+  "useCases": ["Convert canonical graph nodes and edges into Cytoscape elements."],
+  "architecture": {
+    "role": "Thin adapter from the canonical graph model to Cytoscape element definitions.",
+    "invariants": [
+      "The adapter depends on the published canonical graph package.",
+      "Graph analysis remains outside the Cytoscape adapter."
+    ]
+  },
+  "constraints": {
+    "limitations": ["Consumers own Cytoscape lifecycle, layout, and styling."]
+  }
+}
