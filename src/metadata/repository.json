@@ -13,12 +13,8 @@
     "Does not own graph algorithms or dependency semantics.",
     "Does not own Cytoscape lifecycle, layouts, styling, or UI behavior."
   ],
-  "audience": [
-    "Applications that render @ankhorage/graph models with Cytoscape."
-  ],
-  "useCases": [
-    "Convert canonical graph nodes and edges into Cytoscape elements."
-  ],
+  "audience": ["Applications that render @ankhorage/graph models with Cytoscape."],
+  "useCases": ["Convert canonical graph nodes and edges into Cytoscape elements."],
   "architecture": {
     "role": "Thin adapter from the canonical graph model to Cytoscape element definitions.",
     "invariants": [
@@ -27,8 +23,6 @@
     ]
   },
   "constraints": {
-    "limitations": [
-      "Consumers own Cytoscape lifecycle, layout, and styling."
-    ]
+    "limitations": ["Consumers own Cytoscape lifecycle, layout, and styling."]
   }
 }
