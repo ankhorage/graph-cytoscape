@@ -1,6 +1,6 @@
 import type { GraphEdge, GraphId, GraphNode } from '@ankhorage/graph';
 
-export type CytoscapeElementData = Readonly<Record<string, unknown>>;
+export type CytoscapeElementData = object;
 
 export type CytoscapeClasses = string | readonly string[];
 

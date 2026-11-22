@@ -1,4 +1,5 @@
 import type { Graph } from '@ankhorage/graph';
+import type { StoredGraph } from '@ankhorage/graph/persistence';
 import { expect, test } from 'bun:test';
 
 import { toCytoscapeElements } from './graphCytoscape.js';
@@ -39,6 +40,40 @@ const pkgVizGraph: Graph<PkgVizNodeData, Readonly<{ weight: number }>> = {
       source: 'src.components',
       target: 'react',
       data: { weight: 2 },
+    },
+  ],
+};
+
+const storedGraph: StoredGraph = {
+  nodes: [
+    {
+      id: 'person-1',
+      labels: ['Person'],
+      data: {
+        properties: { name: 'Ada' },
+        document: { profile: { languages: ['Ada', 'TypeScript'] } },
+      },
+    },
+    {
+      id: 'company-1',
+      labels: ['Company'],
+      data: { properties: { name: 'Ankhorage' } },
+    },
+  ],
+  edges: [
+    {
+      id: 'role-current',
+      source: 'person-1',
+      target: 'company-1',
+      type: 'ROLE_AT',
+      data: { properties: { validFrom: '2026-01-01' } },
+    },
+    {
+      id: 'role-history',
+      source: 'person-1',
+      target: 'company-1',
+      type: 'ROLE_AT',
+      data: { properties: { validFrom: '2025-01-01', validTo: '2026-01-01' } },
     },
   ],
 };
@@ -113,6 +148,69 @@ test('uses graph identity and endpoints instead of conflicting metadata', () => 
     source: 'canonical-node',
     target: 'canonical-node',
   });
+});
+
+test('preserves canonical labels, relationship types, and conflicting native properties', () => {
+  const graph: Graph<
+    Readonly<{ labels: readonly string[]; id: string }>,
+    Readonly<{ type: string; id: string; source: string; target: string }>
+  > = {
+    nodes: [
+      {
+        id: 'canonical-node',
+        labels: ['Package', 'Workspace'],
+        data: { labels: ['wrong-label'], id: 'wrong-node' },
+      },
+    ],
+    edges: [
+      {
+        id: 'canonical-edge',
+        source: 'canonical-node',
+        target: 'canonical-node',
+        type: 'DEPENDS_ON',
+        data: {
+          type: 'wrong-type',
+          id: 'wrong-edge',
+          source: 'wrong-source',
+          target: 'wrong-target',
+        },
+      },
+    ],
+  };
+
+  const elements = toCytoscapeElements(graph, {
+    nodeClasses: () => ['consumer-node'],
+    edgeClasses: () => 'consumer-edge',
+  });
+
+  expect(elements.nodes[0]).toMatchObject({
+    data: { id: 'canonical-node', labels: ['Package', 'Workspace'] },
+    classes: ['Package', 'Workspace', 'consumer-node'],
+  });
+  expect(elements.edges[0]).toMatchObject({
+    data: {
+      id: 'canonical-edge',
+      source: 'canonical-node',
+      target: 'canonical-node',
+      type: 'DEPENDS_ON',
+    },
+    classes: ['DEPENDS_ON', 'consumer-edge'],
+  });
+});
+
+test('accepts stored graphs with structured documents and parallel historical relationships', () => {
+  const elements = toCytoscapeElements(storedGraph);
+
+  expect(elements.nodes[1]?.data).toEqual({
+    id: 'person-1',
+    labels: ['Person'],
+    properties: { name: 'Ada' },
+    document: { profile: { languages: ['Ada', 'TypeScript'] } },
+  });
+  expect(elements.edges.map(({ data }) => data.id)).toEqual(['role-current', 'role-history']);
+  expect(elements.edges[0]?.data).toMatchObject({ type: 'ROLE_AT' });
+  expect(elements.edges[1]?.data).toMatchObject({ type: 'ROLE_AT' });
+  for (const edge of elements.edges) expect(edge.classes).toEqual(['ROLE_AT']);
 });
 
 test('orders node and edge definitions deterministically', () => {
