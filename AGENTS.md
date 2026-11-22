@@ -1,19 +1,136 @@
 # AGENTS.md
 
+<!-- This file is managed by @ankhorage/devtools. -->
+
 ## Repository
 
 Package: `@ankhorage/graph-cytoscape`
 
-Thin Cytoscape adapter for the canonical `@ankhorage/graph` model.
+Title: Ankhorage Graph Cytoscape
+
+Converts canonical Ankhorage graph data into Cytoscape element definitions.
+
+Purpose: Provide a narrow Cytoscape adapter so graph consumers can render canonical graph models without making the core graph package depend on Cytoscape.
+
+Audience:
+
+- Applications that render @ankhorage/graph models with Cytoscape.
+
+## Scope and boundaries
+
+Responsibilities:
+
+- Translate canonical graph data into Cytoscape element definitions.
+- Expose the Cytoscape adapter through the published package boundary.
+
+Boundaries:
+
+- Does not own graph algorithms or dependency semantics.
+- Does not own Cytoscape lifecycle, layouts, styling, or UI behavior.
+
+Architecture role: Thin adapter from the canonical graph model to Cytoscape element definitions.
+
+Architectural invariants:
+
+- The adapter depends on the published canonical graph package.
+- Graph analysis remains outside the Cytoscape adapter.
 
 ## Current architecture only
 
-Only the current Ankhorage architecture is valid. Do not add deprecated APIs, compatibility aliases, shims, dual old/new paths, or historical-state fallbacks. Cross-package usage must go through published public APIs and declared dependencies.
+Only the current Ankhorage architecture is valid. Do not add or retain deprecated APIs,
+compatibility aliases, shims, dual old/new paths, historical-state fallbacks, or migrations whose
+sole purpose is supporting obsolete states. Remove superseded implementations instead.
+
+When a canonical change affects another repository, update that repository to the latest released
+public API instead of preserving compatibility locally. Cross-package usage must go through
+published public APIs and declared dependencies, never sibling source files.
+
+Current-runtime error handling and canonical database or infrastructure migrations remain valid
+when they support states that the current architecture can intentionally produce.
+
+## Standalone contract
+
+Every repository managed by `@ankhorage/devtools` is standalone. It must be independently
+installable, buildable, testable, and usable from its own checkout using only declared dependencies
+and explicit configuration. It must not require sibling repositories, sibling source imports,
+`workspace:`, `file:`, or `link:` dependencies to unpublished packages, hidden
+organization-local state, or assumptions about a specific consuming application, infrastructure,
+hosting provider, web server, container runtime, or deployment topology.
+
+Published packages are additionally consumer-agnostic and reusable outside Ankhorage.
+Environment- or provider-specific behavior belongs behind explicit configuration and adapters,
+never in the package core.
+
+If an existing repository violates this contract, treat that as architecture debt to remove, not
+as an exception to preserve.
 
 ## Required repository instructions
 
-Before changing any file, read this file and inspect `.agents/skills/`. Load the repository-local coding-rules and project-structure skills for every change, plus hexagonal architecture for structural work.
+Before changing any file, read this `AGENTS.md` completely and inspect `.agents/skills/`.
+Treat skill selection as a mandatory precondition to editing, then follow every selected skill
+through validation and delivery.
 
-## Scope
+- Load `.agents/skills/ankhorage-coding-rules/SKILL.md` for implementation, refactoring, testing,
+  review, or pull-request delivery work.
+- Load `.agents/skills/ankhorage-project-structure/SKILL.md` when the task changes or reviews
+  directory ownership, package boundaries, public entrypoints, cross-repository ownership, type or
+  utility placement, or source architecture.
+- Load every additional repository-local skill whose description or requirements match the task,
+  including skills required by any selected skill. These rules define mandatory minimums, not an
+  allow-list; do not skip a useful relevant skill merely because it is not named here.
 
-This package converts canonical graphs to Cytoscape element definitions. It does not own graph analysis, dependency semantics, project detection, layouts, styling, Cytoscape lifecycle, or UI behavior.
+Do not load unrelated skills merely because they are installed. If the task scope expands, inspect
+`.agents/skills/` again and load the newly relevant skills before continuing. Do not substitute
+remembered, globally installed, or generic guidance for the repository-local versions.
+
+## Documentation
+
+`README.md` and the configured Paradox output are generated release artifacts. Never edit them
+manually, and do not regenerate or commit them in ordinary feature pull requests. Update the owning
+Paradox `/*** ... */` comments in `src` and leading `@usage` comments in real
+`examples/<example>/...` source files, plus any repository-owned manual documentation outside the
+generated output. The managed release workflow runs `bun run docs` after the package version bump
+and commits the regenerated artifacts in the release commit.
+
+## GitHub task lifecycle and workspace cleanup
+
+- **Start.** Treat each issue implementation, PR implementation, review, and change request (CR)
+  as an independent task. Fetch the current remote default branch and read the applicable issue,
+  PR, HEAD, review feedback, and CI state. Use a fresh, uniquely named task checkout or worktree.
+  Concurrent tasks must have distinct writable checkout, temporary, build, and cache paths.
+- **CRs.** Fetch and check out the current remote PR branch in the new workspace. Preserve PR
+  history and scope. Push corrections to the existing PR branch.
+- **Delivery.** Run applicable checks. Commit and push all intended changes, then verify that
+  GitHub has the intended commit on the correct remote branch. Report the exact HEAD, checks, CI,
+  findings, and blockers. Report acceptance that was not run as unverified. Read-only reviews hand
+  off their findings without creating a commit. Merge requires explicit authorization.
+- **Cleanup.** After handoff, resolve every candidate path and remove only task-owned directories
+  whose resolved paths are strictly under the resolved system path for `/tmp` (`/private/tmp` on
+  macOS). Refuse candidates that resolve outside that boundary, including through a symlink. Use
+  Git-aware removal for worktrees. Preserve workspaces outside the boundary, shared directories,
+  other tasks' directories, uncommitted changes, and unpushed commits. If blocked, persist
+  recoverable work first and document what must be retained. Report whether cleanup succeeded, was
+  skipped, or was blocked.
+
+## Pull requests
+
+Before creating a pull request, run all of these commands in this order and resolve every failure:
+
+```sh
+bun run build
+bun run check-types
+bun run lint
+bun run knip:check
+bun run changeset
+bun run format
+```
+
+For repositories that use Changesets, run `bun run changeset` only for release-impacting work.
+No Changeset means no release is requested. Never add an empty Changeset to satisfy CI; remove it
+for a no-release pull request, or add explicit release intent before validation.
+
+## Skill scripts
+
+Scripts inside an Agent Skill must always be TypeScript files with the `.ts` extension.
+JavaScript skill scripts using `.js`, `.mjs`, or `.cjs` are not allowed. Run TypeScript
+skill scripts with Bun.

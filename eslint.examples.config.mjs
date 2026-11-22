@@ -1,3 +1,4 @@
+// This file is managed by @ankhorage/devtools.
 import { existsSync } from 'node:fs';
 
 import { createConfig } from '@ankhorage/devtools/eslint';
