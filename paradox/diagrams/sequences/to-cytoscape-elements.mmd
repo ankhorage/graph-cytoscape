@@ -1,0 +1,5 @@
+sequenceDiagram
+  participant participant_assertDistinctElementIds as assertDistinctElementIds
+  participant participant_toCytoscapeElements as toCytoscapeElements
+  participant_toCytoscapeElements->>participant_assertDistinctElementIds: assertDistinctElementIds()
+  participant_assertDistinctElementIds-->>participant_toCytoscapeElements: return

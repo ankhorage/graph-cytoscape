@@ -1,0 +1,121 @@
+[
+  {
+    "name": "CytoscapeAdapterOptions",
+    "description": null,
+    "isReadme": false,
+    "examples": [],
+    "kind": "type",
+    "modulePath": "src/types/cytoscape.ts",
+    "sourceLocation": {
+      "filePath": "src/types/cytoscape.ts",
+      "line": 7,
+      "column": 1
+    },
+    "exportPaths": [
+      "src/graphCytoscape.ts"
+    ],
+    "relatedSymbols": [
+      "CytoscapeClasses"
+    ],
+    "signatures": [],
+    "members": [
+      {
+        "name": "edgeClasses",
+        "kind": "property",
+        "type": "(edge: GraphEdge<EdgeData, NodeId, EdgeId>) => CytoscapeClasses | undefined",
+        "required": false,
+        "description": null
+      },
+      {
+        "name": "nodeClasses",
+        "kind": "property",
+        "type": "(node: GraphNode<NodeData, NodeId>) => CytoscapeClasses | undefined",
+        "required": false,
+        "description": null
+      }
+    ],
+    "structuredRows": []
+  },
+  {
+    "name": "CytoscapeClasses",
+    "description": null,
+    "isReadme": false,
+    "examples": [],
+    "kind": "unknown",
+    "modulePath": "src/types/cytoscape.ts",
+    "sourceLocation": {
+      "filePath": "src/types/cytoscape.ts",
+      "line": 5,
+      "column": 1
+    },
+    "exportPaths": [
+      "src/graphCytoscape.ts"
+    ],
+    "relatedSymbols": [],
+    "signatures": [],
+    "members": [],
+    "structuredRows": []
+  },
+  {
+    "name": "CytoscapeElementData",
+    "description": null,
+    "isReadme": false,
+    "examples": [],
+    "kind": "unknown",
+    "modulePath": "src/types/cytoscape.ts",
+    "sourceLocation": {
+      "filePath": "src/types/cytoscape.ts",
+      "line": 3,
+      "column": 1
+    },
+    "exportPaths": [
+      "src/graphCytoscape.ts"
+    ],
+    "relatedSymbols": [],
+    "signatures": [],
+    "members": [],
+    "structuredRows": []
+  },
+  {
+    "name": "toCytoscapeElements",
+    "description": "Convert a canonical graph to deterministic Cytoscape element definitions.",
+    "isReadme": false,
+    "examples": [],
+    "kind": "function",
+    "modulePath": "src/features/elementConversion/toCytoscapeElements.ts",
+    "sourceLocation": {
+      "filePath": "src/features/elementConversion/toCytoscapeElements.ts",
+      "line": 11,
+      "column": 1
+    },
+    "exportPaths": [
+      "src/graphCytoscape.ts"
+    ],
+    "relatedSymbols": [
+      "CytoscapeAdapterOptions"
+    ],
+    "signatures": [
+      {
+        "label": "(graph: Graph<NodeData, EdgeData, NodeId, EdgeId>, options?: CytoscapeAdapterOptions<NodeData, EdgeData, NodeId, EdgeId>) => ElementsDefinition",
+        "parameters": [
+          {
+            "name": "graph",
+            "type": "Graph<NodeData, EdgeData, NodeId, EdgeId>",
+            "required": true,
+            "description": null
+          },
+          {
+            "name": "options",
+            "type": "CytoscapeAdapterOptions<NodeData, EdgeData, NodeId, EdgeId>",
+            "required": false,
+            "description": null
+          }
+        ],
+        "returnType": "ElementsDefinition",
+        "returnDescription": null
+      }
+    ],
+    "members": [],
+    "structuredRows": []
+  }
+]

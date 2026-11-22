@@ -1,0 +1,18 @@
+graph TD
+  package__ankhorage_graph_cytoscape["@ankhorage/graph-cytoscape"]
+  entrypoint_src_graphCytoscape_ts["src/graphCytoscape.ts"]
+  package__ankhorage_graph_cytoscape --> entrypoint_src_graphCytoscape_ts
+  module_examples_basic_usage_convertGraph_ts["examples/basic-usage/convertGraph.ts"]
+  package__ankhorage_graph_cytoscape -.-> module_examples_basic_usage_convertGraph_ts
+  module_examples_basic_usage_convertGraph_ts --> module_dist_graphCytoscape_d_ts
+  module_paradox_config_ts["paradox.config.ts"]
+  package__ankhorage_graph_cytoscape -.-> module_paradox_config_ts
+  module_src_features_elementConversion_toCytoscapeElements_ts["src/features/elementConversion/toCytoscapeElements.ts"]
+  package__ankhorage_graph_cytoscape -.-> module_src_features_elementConversion_toCytoscapeElements_ts
+  module_src_features_elementConversion_toCytoscapeElements_ts --> module_src_types_cytoscape_ts
+  module_src_graphCytoscape_test_ts["src/graphCytoscape.test.ts"]
+  package__ankhorage_graph_cytoscape -.-> module_src_graphCytoscape_test_ts
+  module_src_graphCytoscape_test_ts --> module_src_graphCytoscape_ts
+  module_src_graphCytoscape_ts["src/graphCytoscape.ts"]
+  module_src_types_cytoscape_ts["src/types/cytoscape.ts"]
+  package__ankhorage_graph_cytoscape -.-> module_src_types_cytoscape_ts

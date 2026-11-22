@@ -1,5 +1,11 @@
 # @ankhorage/graph-cytoscape
 
+## 0.3.0
+
+### Minor Changes
+
+- feb596c: Support canonical Graph labels, relationship types, and storage-backed graph data in Cytoscape elements.
+
 ## 0.2.1
 
 ### Patch Changes

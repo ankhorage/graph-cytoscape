@@ -1,0 +1,17 @@
+graph LR
+  module_examples_basic_usage_convertGraph_ts["examples/basic-usage/convertGraph.ts"]
+  module_paradox_config_ts["paradox.config.ts"]
+  module_src_features_elementConversion_toCytoscapeElements_ts["src/features/elementConversion/toCytoscapeElements.ts"]
+  module_src_graphCytoscape_test_ts["src/graphCytoscape.test.ts"]
+  module_src_graphCytoscape_ts["src/graphCytoscape.ts"]
+  module_src_types_cytoscape_ts["src/types/cytoscape.ts"]
+  export_CytoscapeAdapterOptions["CytoscapeAdapterOptions"]
+  module_src_types_cytoscape_ts --> export_CytoscapeAdapterOptions
+  export_CytoscapeAdapterOptions -.-> export_CytoscapeClasses
+  export_CytoscapeClasses["CytoscapeClasses"]
+  module_src_types_cytoscape_ts --> export_CytoscapeClasses
+  export_CytoscapeElementData["CytoscapeElementData"]
+  module_src_types_cytoscape_ts --> export_CytoscapeElementData
+  export_toCytoscapeElements["toCytoscapeElements"]
+  module_src_features_elementConversion_toCytoscapeElements_ts --> export_toCytoscapeElements
+  export_toCytoscapeElements -.-> export_CytoscapeAdapterOptions
